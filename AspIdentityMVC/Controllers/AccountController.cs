@@ -1,12 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspIdentityMVC.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        private readonly ILogger<AccountController> _logger;
+
+        public AccountController(ILogger<AccountController> logger)
         {
-            return View();
+            _logger = logger;
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(string returnUrl)
+        {
+            try
+            {
+                return View(new Models.Account.LoginModel { ReturnUrl = returnUrl });
+            }
+            catch (Exception exp)
+            {
+
+                throw;
+            }
+        }
+
+
+
     }
 }
