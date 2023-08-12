@@ -50,10 +50,19 @@ namespace AspIdentityMVC.Controllers
                     return RedirectToAction("Login", new { returnUrl = model.ReturnUrl });
                 }
 
+                //*/Use following code if you want to signin using user name.//*/
+
+                //var signInResult = await _signInManager
+                //    .PasswordSignInAsync(model.Username, model.Password, 
+                //    model.RememberLogin, lockoutOnFailure: true);
+
+                //*/Use following code if you want to signin using email//*/
+
+                var user = await _userManager.FindByEmailAsync(model.Username);
                 var signInResult = await _signInManager
-                    .PasswordSignInAsync(model.Username, model.Password, 
+                    .PasswordSignInAsync(user, model.Password,
                     model.RememberLogin, lockoutOnFailure: true);
-                
+
                 if (!signInResult.Succeeded)
                 {
                     TempData["LoginError"] = "User name or passsword dit not correct.";
