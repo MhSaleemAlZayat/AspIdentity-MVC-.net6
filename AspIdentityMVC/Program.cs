@@ -5,7 +5,7 @@ using Serilog.Sinks.SystemConsole.Themes;
 using Serilog;
 using System.Data;
 using AspIdentityMVC.Data;
-
+using AspIdentityMVC.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -91,5 +91,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+await app.InitializeIdentity();
 
 app.Run();
